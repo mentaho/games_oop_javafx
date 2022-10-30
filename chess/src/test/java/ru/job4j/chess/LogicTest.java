@@ -41,4 +41,19 @@ public class LogicTest {
         });
         assertThat(exception.getMessage()).isEqualTo("There is some figure on your way.");
     }
+
+    @Test
+    public void whenMoveThenImpossibleMoveException()
+            throws FigureNotFoundException, OccupiedCellException, ImpossibleMoveException {
+        Cell position = Cell.C1;
+        Cell destination = Cell.D3;
+        Logic logic = new Logic();
+        logic.add(new BishopBlack(Cell.C1));
+        ImpossibleMoveException exception = assertThrows(ImpossibleMoveException.class, () -> {
+            logic.move(position, destination);
+        });
+        String expected = String.format("Could not move by diagonal from %s to %s",
+                position, destination);
+        assertThat(exception.getMessage()).isEqualTo(expected);
+    }
 }
